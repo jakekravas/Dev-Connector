@@ -10,7 +10,7 @@ const config = require("config");
 const User = require("../../models/User");
 
 // @route      GET api/users
-// @desc       Register user
+// @desc       Register user & get token
 // @access     Private
 router.post(
   "/",
