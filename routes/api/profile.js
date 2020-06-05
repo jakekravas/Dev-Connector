@@ -87,6 +87,8 @@ router.post("/", [auth, [
         { $set: profileFields },
         { new: true }
       );
+
+      return res.json(profile);
     }
 
     // Create
@@ -97,6 +99,44 @@ router.post("/", [auth, [
     res.json({profile});
   } catch (err) {
     console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route      GET api/profile
+// @desc       Get all profiles
+// @access     Public
+router.get("/", async (req, res) => {
+  try {
+    // populate name and avatar from User collection
+    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+// @route      GET api/profile/user/:user_id
+// @desc       Get profiles by user ID
+// @access     Public
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    // const profile = await Profile.findById(req.params.user_id);
+    const profile = await Profile.findOne({ user: req.params.user_id })
+      .populate("user", ["name", "avatar"]);
+
+    if (!profile){
+      return res.status(400).json({ msg: "Profile not found"});
+    }
+    
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    // Prevents server error from triggering if the only issue is an invalid ID
+    if (err.kind === "ObjectId") {
+      return res.status(400).json({ msg: "Profile not found"});
+    }
     res.status(500).send("Server error");
   }
 });
