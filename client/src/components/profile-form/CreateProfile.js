@@ -1,8 +1,10 @@
 import React, { useState, Fragment } from 'react';
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
+import { createProfile } from "../../actions/profile";
 
-const CreateProfile = props => {
+const CreateProfile = ({ createProfile, history }) => {
   const [formData, setFormData] = useState({
     company: "",
     website: "",
@@ -37,6 +39,11 @@ const CreateProfile = props => {
 
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
 
+  const onSubmit = e => {
+    e.preventDefault();
+    createProfile(formData, history);
+  }
+
   return (
     <Fragment>
       <h1 className="large text-primary">
@@ -47,7 +54,7 @@ const CreateProfile = props => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form onSubmit={onSubmit} className="form">
         <div className="form-group">
           <select name="status" value={status} onChange={onChange}>
             <option value="0">* Select Professional Status</option>
@@ -60,9 +67,9 @@ const CreateProfile = props => {
             <option value="Intern">Intern</option>
             <option value="Other">Other</option>
           </select>
-          <small className="form-text"
-            >Give us an idea of where you are at in your career</small
-          >
+          <small className="form-text">
+            Give us an idea of where you are at in your career
+          </small>
         </div>
         <div className="form-group">
           <input
@@ -72,9 +79,9 @@ const CreateProfile = props => {
             value={company}
             onChange={onChange}
           />
-          <small className="form-text"
-            >Could be your own company or one you work for</small
-          >
+          <small className="form-text">
+            Could be your own company or one you work for
+          </small>
         </div>
         <div className="form-group">
           <input
@@ -84,9 +91,9 @@ const CreateProfile = props => {
             value={website}
             onChange={onChange}
           />
-          <small className="form-text"
-            >Could be your own or a company website</small
-          >
+          <small className="form-text">
+            Could be your own or a company website
+          </small>
         </div>
         <div className="form-group">
           <input
@@ -108,10 +115,10 @@ const CreateProfile = props => {
             value={skills}
             onChange={onChange}
           />
-          <small className="form-text"
-            >Please use comma separated values (eg.
-            HTML,CSS,JavaScript,PHP)</small
-          >
+          <small className="form-text">
+            Please use comma separated values (eg.
+            HTML,CSS,JavaScript,PHP)
+          </small>
         </div>
         <div className="form-group">
           <input
@@ -121,16 +128,16 @@ const CreateProfile = props => {
             value={githubusername}
             onChange={onChange}
           />
-          <small className="form-text"
-            >If you want your latest repos and a Github link, include your
-            username</small
-          >
+          <small className="form-text">
+            If you want your latest repos and a Github link, include your
+            username
+          </small>
         </div>
         <div className="form-group">
           <textarea
             placeholder="A short bio of yourself"
             name="bio"
-            value={company}
+            value={bio}
             onChange={onChange}>
           </textarea>
           <small className="form-text">Tell us a little about yourself</small>
@@ -207,7 +214,8 @@ const CreateProfile = props => {
 }
 
 CreateProfile.propTypes = {
-
+  createProfile: PropTypes.func.isRequired
 }
 
-export default CreateProfile
+// must use withRouter for history to work
+export default connect(null, { createProfile })(withRouter(CreateProfile));
