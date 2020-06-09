@@ -33,7 +33,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
     }
 
     const res = await axios.post("/api/profile", formData, config);
-
+    console.log(res);
     dispatch({
       type: GET_PROFILE,
       payload: res.data
@@ -45,12 +45,6 @@ export const createProfile = (formData, history, edit = false) => async dispatch
       history.push("/dashboard");
     }
   } catch (err) {
-    // const error = err.response.data.msg;
-
-    // if (error) {
-    //   dispatch(setAlert(error, "danger"));
-    // }
-
     const errors = err.response.data.errors; //because we named the array errors
 
     if (errors) {

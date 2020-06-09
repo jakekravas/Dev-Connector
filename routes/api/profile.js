@@ -67,7 +67,8 @@ router.post("/", [auth, [
   if (githubusername) profileFields.githubusername = githubusername;
   if (skills){
     // taking csv skills to array of skills and removing any spaces
-    profileFields.skills = skills.split(",").map(skill => skill.trim());
+    // profileFields.skills = skills.split(",").map(skill => skill.trim());
+    profileFields.skills = skills.toString().split(",").map(skill => skill.trim());
   };
   
   // Build social object
@@ -94,7 +95,6 @@ router.post("/", [auth, [
 
     // Create
     profile = await new Profile(profileFields);
-
     await profile.save();
 
     res.json({profile});
