@@ -8,7 +8,7 @@ import ProfileItem from './ProfileItem';
 const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   useEffect(() => {
     getProfiles();
-  }, []);
+  }, [getProfiles]); // we would just do [] but that'll cause a console error
 
   return (
     <Fragment>
