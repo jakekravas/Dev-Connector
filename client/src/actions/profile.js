@@ -103,11 +103,12 @@ export const createProfile = (formData, history, edit = false) => async dispatch
       history.push("/dashboard");
     }
   } catch (err) {
-    const errors = err.response.data.errors; //because we named the array errors
+    // const errors = err.response.data.errors; //because we named the array errors
+    console.log(err);
 
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    }
+    // if (errors) {
+    //   errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
+    // }
 
     dispatch({
       type: PROFILE_ERROR,
