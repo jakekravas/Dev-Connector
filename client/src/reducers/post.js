@@ -1,6 +1,7 @@
 import {
   GET_POSTS,
-  POST_ERROR
+  POST_ERROR,
+  UPDATE_LIKES
 } from "../actions/types"
 
 const initialState = {
@@ -18,7 +19,18 @@ export default function(state = initialState, action) {
       return {
         ...state,
         posts: payload,
-        error: false
+        loading: false
+      }
+
+    case UPDATE_LIKES:
+      console.log(payload);
+      return {
+        ...state,
+        posts: state.posts.map(post => 
+          // if the post we're iterating thru is the one that's just been liked/unliked, return that post with whatever # of likes it now has, otherwise just return the post as it is
+          post._id === payload.postId ? {...post, likes: payload.likes} : post
+        ),
+        loading: false
       }
 
     case POST_ERROR:
