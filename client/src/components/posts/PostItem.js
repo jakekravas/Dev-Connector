@@ -16,14 +16,14 @@ const PostItem = ({
   return (
     <div class="post bg-white p-1 my-1">
       <div>
-        <a href="profile.html">
+        <Link to={`/profile/${user}`}>
           <img
             class="round-img"
             src={avatar}
             alt="avatar"
           />
           <h4>{name}</h4>
-        </a>
+        </Link>
       </div>
       <div>
         <p class="my-1">
@@ -34,7 +34,7 @@ const PostItem = ({
         </p>
         <button onClick={e => addLike(_id)} type="button" class="btn btn-light">
           <i class="fas fa-thumbs-up"/>
-          {likes.length > 0 && (
+          {!likes || likes.length > 0 && (
             <span>{likes.length}</span>
           )}
         </button>
@@ -42,7 +42,7 @@ const PostItem = ({
           <i class="fas fa-thumbs-down"/>
         </button>
         <Link to={`/post/${_id}`} class="btn btn-primary">
-          Discussion {comments.length > 0 && (
+          Discussion {!comments || comments.length > 0 && (
             <span class='comment-count'>{comments.length}</span>
           )}
         </Link>
